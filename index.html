@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Risultati Partite</title>
+    <meta name="description" content="Visualizza i risultati delle partite in tempo reale.">
+    <meta name="keywords" content="risultati partite, calcio, sport, API risultati">
+    <meta name="author" content="Il tuo nome">
+    <meta name="robots" content="index, follow">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -40,26 +44,23 @@
 </head>
 <body>
     <header>
-        <h1>Partite in Programma Oggi</h1>
+        <h1>Risultati delle Partite</h1>
     </header>
     <div class="container">
         <div id="results"></div>
         <p id="error" class="error"></p>
     </div>
     <script>
-        // Funzione per ottenere i risultati delle partite in programma oggi
-        async function fetchTodayMatches() {
+        // Funzione per ottenere i risultati delle partite
+        async function fetchMatchResults() {
             const resultsContainer = document.getElementById('results');
             const errorContainer = document.getElementById('error');
 
-            // Ottieni la data corrente in formato ISO
-            const today = new Date().toISOString().split('T')[0];
-
             try {
-                // URL API di Football-Data.org
-                const response = await fetch(`https://api.football-data.org/v4/matches=${today}&dateTo=${today}`, {
+                // URL API: endpoint corretto per l'API di api-football.com
+                const response = await fetch('https://api.football-data.org/v4/matches', {
                     headers: {
-                        'X-Auth-Token': 'bc4fc62e0f02427e8c3d3df34267ca4a'
+                        'X-Auth-Token': 'd1cc5fac318981784f7896f08bd01044'  // La tua API Key
                     }
                 });
 
@@ -81,13 +82,14 @@
 
                         matchElement.innerHTML = `
                             <h3>${match.homeTeam.name} vs ${match.awayTeam.name}</h3>
-                            <p>Data: ${new Date(match.utcDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                            <p>Data: ${new Date(match.utcDate).toLocaleString()}</p>
+                            <p>Risultato: ${match.score.fullTime.homeTeam} - ${match.score.fullTime.awayTeam}</p>
                         `;
 
                         resultsContainer.appendChild(matchElement);
                     });
                 } else {
-                    resultsContainer.innerHTML = '<p>Nessuna partita in programma oggi.</p>';
+                    resultsContainer.innerHTML = '<p>Nessun risultato disponibile.</p>';
                 }
             } catch (error) {
                 console.error('Errore nel caricamento dei dati:', error);
@@ -96,7 +98,8 @@
         }
 
         // Richiama la funzione al caricamento della pagina
-        document.addEventListener('DOMContentLoaded', fetchTodayMatches);
+        document.addEventListener('DOMContentLoaded', fetchMatchResults);
     </script>
 </body>
 </html>
+
