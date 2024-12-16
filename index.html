@@ -73,6 +73,8 @@
 
             const dateString = date.toISOString().split('T')[0]; // Formato: YYYY-MM-DD
 
+            console.log('Caricando partite per la data:', dateString);  // Log di debug
+
             try {
                 // URL API per ottenere le partite per la data selezionata
                 const response = await fetch(`https://api.football-data.org/v4/matches?dateFrom=${dateString}&dateTo=${dateString}`, {
@@ -86,6 +88,8 @@
                 }
 
                 const data = await response.json();
+
+                console.log('Dati delle partite:', data);  // Log di debug
 
                 // Pulizia contenitori
                 resultsContainer.innerHTML = '';
@@ -120,6 +124,7 @@
             const calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 dateClick: function(info) {
+                    console.log('Data selezionata:', info.dateStr); // Log di debug
                     // Quando si clicca su un giorno, carica le partite per quella data
                     fetchMatchSchedule(info.date);
                 }
