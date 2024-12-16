@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendario Partite</title>
+    <title>Test Calendario</title>
     <!-- Aggiungi FullCalendar CSS -->
     <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.10.1/main.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@5.10.1/main.min.css" rel="stylesheet" />
@@ -35,7 +35,7 @@
 <body>
 
     <header>
-        <h1>Calendario delle Partite</h1>
+        <h1>Calendario Partite</h1>
     </header>
 
     <div class="container">
@@ -43,20 +43,22 @@
         <div id="calendar"></div>
     </div>
 
-    <!-- Aggiungi FullCalendar JS -->
-    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.10.1/main.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@5.10.1/main.min.js"></script>
+    <!-- Aggiungi FullCalendar JS come modulo -->
+    <script type="module">
+        import { Calendar } from 'https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.10.1/main.min.js';
+        import dayGridPlugin from 'https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@5.10.1/main.min.js';
 
-    <script>
         // Funzione per inizializzare il calendario
         function initializeCalendar() {
             const calendarEl = document.getElementById('calendar');
-            const calendar = new FullCalendar.Calendar(calendarEl, {
+            const calendar = new Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
-                dateClick: function(info) {
-                    console.log('Data selezionata:', info.dateStr); // Debug
-                    alert('Hai cliccato sul giorno: ' + info.dateStr);
-                }
+                plugins: [ dayGridPlugin ], // Usa il plugin dayGrid
+                events: [
+                    { title: 'Partita 1', date: '2024-12-16' },
+                    { title: 'Partita 2', date: '2024-12-17' },
+                    { title: 'Partita 3', date: '2024-12-18' }
+                ]
             });
             calendar.render(); // Renderizza il calendario
         }
@@ -67,3 +69,4 @@
 
 </body>
 </html>
+
